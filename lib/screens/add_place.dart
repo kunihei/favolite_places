@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:favorite_places/providers/user_places.dart';
 import 'package:favorite_places/widgets/input_image.dart';
+import 'package:favorite_places/widgets/location_imput.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,7 +24,9 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
     if (enteredTitle.isEmpty || _selectedImage == null) {
       return;
     }
-    ref.read(usesrPlacesProvider.notifier).addPlace(enteredTitle, _selectedImage!);
+    ref
+        .read(usesrPlacesProvider.notifier)
+        .addPlace(enteredTitle, _selectedImage!);
     Navigator.of(context).pop();
   }
 
@@ -50,9 +53,15 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
             SizedBox(
               height: 10,
             ),
-            InputImage(onPickImage: (image) {
-              _selectedImage = image;
-            },),
+            InputImage(
+              onPickImage: (image) {
+                _selectedImage = image;
+              },
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            LocationInput(),
             SizedBox(
               height: 16,
             ),
