@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:favorite_places/models/place.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:http/http.dart' as http;
 
 class LocationInput extends StatefulWidget {
   const LocationInput({super.key});
@@ -11,7 +16,7 @@ class LocationInput extends StatefulWidget {
 }
 
 class _LocationInputState extends State<LocationInput> {
-  Location? pickeLocation;
+  PlaceLocation? _pickeLocation;
   var _isGettingLocation = false;
 
   void _getCurrentLocation() async {
@@ -45,12 +50,24 @@ class _LocationInputState extends State<LocationInput> {
     });
 
     locationData = await location.getLocation();
-    print(locationData.latitude);
-    print(locationData.longitude);
+    final lat = locationData.latitude;
+    final lng = locationData.longitude;
+
+    if (lat == null || lng == null) {
+      return;
+    }
+    final url = Uri.parse('https://geoapi.heartrails.com/api/xml?method=searchByGeoLocation&x=$lng&y=$lat');
+    final response = await http.get(url);
+    final resData = json.decode(response.body);
+    print('kuni');
+    print(resData);
+
 
     setState(() {
+      _pickeLocation = PlaceLocation(langitude: lng!, latitude: lat!, address: 'address');
       _isGettingLocation = false;
     });
+    exit(0);
   }
 
   @override
