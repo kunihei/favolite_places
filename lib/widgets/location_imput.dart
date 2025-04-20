@@ -56,7 +56,7 @@ class _LocationInputState extends State<LocationInput> {
     if (lat == null || lng == null) {
       return;
     }
-    final url = Uri.parse('https://geoapi.heartrails.com/api/xml?method=searchByGeoLocation&x=$lng&y=$lat');
+    final url = Uri.parse('https://geoapi.heartrails.com/api/json?method=searchByGeoLocation&x=$lng&y=$lat');
     final response = await http.get(url);
     final resData = json.decode(response.body);
     print('kuni');
